@@ -12,8 +12,10 @@ module.exports = function() {
     u.save(function(err, user) {
       if (err) {
         console.log(err);
-        res.status(400);
-        return;
+        return res.status(400).json({
+          success: false,
+          message: err.errmsg
+        });
       }
       console.log(user);
       res.status(200).json({
