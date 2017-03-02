@@ -1,34 +1,43 @@
 var express = require('express');
 var router = express.Router();
-var models = require('../models');
-var User = models.User;
+var models = require('../models/models');
 
-//////////////////////////////// PUBLIC ROUTES ////////////////////////////////
-// Users who are not logged in can see these routes
+module.exports = function() {
 
-router.get('/', function(req, res, next) {
-  res.render('home');
-});
-
-///////////////////////////// END OF PUBLIC ROUTES /////////////////////////////
-
-router.use(function(req, res, next){
-  if (!req.user) {
-    res.redirect('/login');
-  } else {
-    return next();
-  }
-});
-
-//////////////////////////////// PRIVATE ROUTES ////////////////////////////////
-// Only logged in users can see these routes
-
-router.get('/protected', function(req, res, next) {
-  res.render('protectedRoute', {
-    username: req.user.username,
+  router.post('/register', function(req, res) {
+    var u = new models.User({
+      username: req.body.username,
+      password: req.body.password
+    });
+    u.save(function(err, user) {
+      if (err) {
+        console.log(err);
+        res.status(400);
+        return;
+      }
+      console.log(user);
+      res.status(200).json(user)
+    });
   });
-});
 
-///////////////////////////// END OF PRIVATE ROUTES /////////////////////////////
+  // POST Login page
+  router.post('/login', function(req, res) {
+    models.User.findOne({username: req.body.username}, function(err, foundUser){
+      if(err){
+        res.status(500);
+      } else if(!foundUser){
+        res.status(400).json({
+          success: false,
+          message: "User not found."
+        });
+      } else if(foundUser.password === req.body.password) {
+        res.json({
+          success: true,
+          message: "Successfully logged in."
+        });
+      }
+    })
+  });
 
-module.exports = router;
+  return router;
+};
