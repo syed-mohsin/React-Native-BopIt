@@ -1,1 +1,14 @@
+.DS_Store
 node_modules
+.env
+*.swp
+env.sh
+express-server/dev.markdown
+express-server/.env
+express-server/node_modules/
+express-server/npm-debug.log
+express-server/.tmp
+express-server/.DS_Store
+express-server/.idea/
+express-server/*.swp
+express-server/connect.js
