@@ -1,2 +1,2 @@
-# React-Native-Quiz
-Timed Multiplayer coding quiz
+# BopIt in React-Native and Express
+BopIt
