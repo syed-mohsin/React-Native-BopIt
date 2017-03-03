@@ -12,6 +12,11 @@ module.exports = function() {
           success: false,
           message: err.errmsg
         });
+      } else if(!foundUser){
+        res.status(400).json({
+          success: false,
+          message: "No user found."
+        });
       } else {
         res.status(200).json({
           success: true,
