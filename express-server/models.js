@@ -39,7 +39,7 @@ var questionSchema = mongoose.Schema({
   difficulty: {
     type: String
   }
-})
+});
 
 User = mongoose.model('User', userSchema);
 Question = mongoose.model('Question', questionSchema);
