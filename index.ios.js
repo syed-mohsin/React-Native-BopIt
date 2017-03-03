@@ -17,7 +17,7 @@ import {
   StatusBar
 } from 'react-native';
 
-var codingQuiz = React.createClass ({
+var REACT = React.createClass ({
   render() {
     return (
       <NavigatorIOS
@@ -427,4 +427,4 @@ const styles = StyleSheet.create({
   }
 });
 
-AppRegistry.registerComponent('codingQuiz', () => codingQuiz);
+AppRegistry.registerComponent('REACT', () => REACT);
