@@ -26,14 +26,17 @@ module.exports = function() {
     })
   })
 
-  router.get('/scores', function(req, res) {
-    models.User.findOne({username: req.body.username}, function(err, foundUser){
+  router.get('/scores/:id', function(req, res) {
+    console.log('hi')
+    console.log(req.params.id)
+    models.User.findOne({_id: req.params.id}, function(err, foundUser){
+      console.log(foundUser)
       if(err){
         console.log(err);
         res.status(400).json({
           success: false,
-          message: err.errmsg
-        });
+          message: err
+        }); 
       } else if(!foundUser.highScore){
         res.status(200).json({
           success: true,
@@ -55,7 +58,7 @@ module.exports = function() {
         console.log(err);
         res.status(400).json({
           success: false,
-          message: err.errmsg
+          message: err
         });
       } else if(!foundUserArray){
         res.status(200).json({
