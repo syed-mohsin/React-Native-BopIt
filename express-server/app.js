@@ -24,7 +24,7 @@ mongoose.connect(connect);
 
 var models = require('./models');
 
-// var routes = require('./routes/routes');
+var routes = require('./routes/routes');
 var auth = require('./routes/auth');
 var app = express();
 
@@ -80,7 +80,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // ));
 
 app.use('/', auth());
-// app.use('/', routes);
+app.use('/', routes());
 
 // // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
