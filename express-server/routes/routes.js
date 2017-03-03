@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var models = require('../models/models');
+var models = require('../models');
 
 module.exports = function() {
 
@@ -47,7 +47,7 @@ module.exports = function() {
         })
       }
     });
-  }
+  });
 
   router.get('/leaderboard', function(req, res){
     models.User.find({}, function(err, foundUserArray){
