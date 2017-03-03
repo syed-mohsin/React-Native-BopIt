@@ -1,22 +1,10 @@
-// Add Passport-related auth routes here.
 var express = require('express');
 var router = express.Router();
 var models = require('../models');
 
-module.exports = function(passport) {
+module.exports = function() {
 
-  // GET registration page
-  router.get('/signup', function(req, res) {
-    res.render('signup');
-  });
-
-  router.post('/signup', function(req, res) {
-    // validation step
-    if (req.body.password!==req.body.passwordRepeat) {
-      return res.render('signup', {
-        error: "Passwords don't match."
-      });
-    }
+  router.post('/register', function(req, res) {
     var u = new models.User({
       username: req.body.username,
       password: req.body.password
@@ -24,29 +12,43 @@ module.exports = function(passport) {
     u.save(function(err, user) {
       if (err) {
         console.log(err);
-        res.status(500).redirect('/register');
-        return;
+        return res.status(400).json({
+          success: false,
+          message: err.errmsg
+        });
       }
       console.log(user);
-      res.redirect('/login');
+      res.status(200).json({
+        success: true,
+        user: user
+      })
     });
   });
 
-  // GET Login page
-  router.get('/login', function(req, res) {
-    res.render('login');
-  });
-
   // POST Login page
-  router.post('/login', passport.authenticate('local',{
-    successRedirect: '/protected',
-    failureRedirect: '/login'
-  }));
-
-  // GET Logout page
-  router.get('/logout', function(req, res) {
-    req.logout();
-    res.redirect('/');
+  router.post('/login', function(req, res) {
+    models.User.findOne({username: req.body.username}, function(err, foundUser){
+      console.log('foundUser', foundUser);
+      console.log('reqbody', req.body.username)
+      if(err){
+        res.status(500);
+      } else if(!foundUser){
+        res.status(400).json({
+          success: false,
+          message: "User not found."
+        });
+      } else if(foundUser.password === req.body.password) {
+        res.json({
+          success: true,
+          message: "Successfully logged in."
+        });
+      } else {
+        res.status(400).json({
+          success: false,
+          message: "Something went wrong!"
+        })
+      }
+    })
   });
 
   return router;

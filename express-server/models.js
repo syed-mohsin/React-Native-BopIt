@@ -1,14 +1,6 @@
 var mongoose = require('mongoose');
 
 var userSchema = mongoose.Schema({
-<<<<<<< Updated upstream
-  username: String,
-  password: String,
-  phone: String
-});
-
-
-=======
   username: {
     type: String,
     index: {
@@ -47,8 +39,7 @@ var questionSchema = mongoose.Schema({
   difficulty: {
     type: String
   }
-})
->>>>>>> Stashed changes
+});
 
 User = mongoose.model('User', userSchema);
 Question = mongoose.model('Question', questionSchema);
